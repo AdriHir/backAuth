@@ -37,25 +37,27 @@ class UserController extends AbstractController {
             return $this->json($user, 201);
 
     }
-    #[Route('/login', methods:'POST')]
-    public function login(
-        #[MapRequestPayload] User $user,
-        UserPasswordHasherInterface $hasher,
-        JWTTokenManagerInterface $token
-    ) {
-        $stored = $this->repo->findByEmail($user->getEmail());
-        if($stored==null){
-            return $this->json('utilisateur inconnu',401);
-        }
-   
-        if (!$hasher->isPasswordValid($stored,$user->getMdp())) {
-            return $this->json('Mot de passe incorrect', 401);
-        }
-    
-        $token = $token->create($user);
-    
-        return $this->json(['token' => $token]);
-    }
+
+    // SAns library JWT 
+    // #[Route('/login', methods:'POST')]
+    // public function login(
+    //     #[MapRequestPayload] User $user,
+    //     UserPasswordHasherInterface $hasher,
+    //     JWTTokenManagerInterface $token
+    // ) { 
+    //     //on vacherche si l'email est dans la bdd
+    //     $stored = $this->repo->findByEmail($user->getEmail());
+    //     if($stored==null){
+    //         return $this->json('utilisateur inconnu',401);
+    //     }
+    //     // on verifie si le mdp est le meme que le mdp de la base de données
+    //     if (!$hasher->isPasswordValid($stored,$user->getMdp())) {
+    //         return $this->json('Mot de passe incorrect', 401);
+    //     }
+    //     //on genere un token
+    //     $token = $token->create($stored);  
+    //     return $this->json(['token' => $token]);
+    // }
    
 
 
