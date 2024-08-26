@@ -44,7 +44,9 @@ class UserController extends AbstractController {
         JWTTokenManagerInterface $token
     ) {
         $stored = $this->repo->findByEmail($user->getEmail());
-    
+        if($stored==null){
+            return $this->json('utilisateur inconnu',401);
+        }
    
         if (!$hasher->isPasswordValid($stored,$user->getMdp())) {
             return $this->json('Mot de passe incorrect', 401);
