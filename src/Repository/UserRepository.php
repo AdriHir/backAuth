@@ -16,7 +16,7 @@ class UserRepository {
         $user->setId($connection->lastInsertId());
     }
     public function findByEmail(string $email): ?User {
-        $connection = Database::connect();
+        $connection = database::connect();
         $query = $connection->prepare('SELECT * FROM user WHERE email=:email');
         $query->bindValue(':email', $email);
         $query->execute();
@@ -31,4 +31,5 @@ class UserRepository {
         }
         return null;
     }
+
 }

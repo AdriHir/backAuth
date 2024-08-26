@@ -2,19 +2,20 @@
 
 namespace App\Controller;
 use App\Entity\User;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
 
-#[Route('/api/user')]
+#[Route('/api')]
 class UserController extends AbstractController {
 
     public function __construct(private UserRepository $repo) {}
 
 
-    #[Route(methods:'POST')]
+    #[Route('/register',methods:'POST')]
 
     public function register(
         #[MapRequestPayload] User $user,
@@ -36,6 +37,24 @@ class UserController extends AbstractController {
             return $this->json($user, 201);
 
     }
+    #[Route('/login', methods:'POST')]
+    public function login(
+        #[MapRequestPayload] User $user,
+        UserPasswordHasherInterface $hasher,
+        JWTTokenManagerInterface $token
+    ) {
+        $stored = $this->repo->findByEmail($user->getEmail());
+    
+   
+        if (!$hasher->isPasswordValid($stored,$user->getMdp())) {
+            return $this->json('Mot de passe incorrect', 401);
+        }
+    
+        $token = $token->create($user);
+    
+        return $this->json(['token' => $token]);
+    }
+   
 
 
          
