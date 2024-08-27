@@ -3,13 +3,19 @@
 namespace App\Entity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class User implements UserInterface,PasswordAuthenticatedUserInterface{
 
 
     public function __construct(
         private ?string $role = null,
+        #[Email()]
+        #[NotBlank()]
         private ?string $email = null,
+        #[NotBlank()]
         private ?string $mdp =null,
         private ?int $id = null
     ) {}
@@ -31,6 +37,8 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface{
         $this->email = $email;
         return $this;
     }
+
+    #[Ignore] // N'envoie pas le mot de pass en get ! 
     public function getMdp(): ?string {
         return $this->mdp
         ;
