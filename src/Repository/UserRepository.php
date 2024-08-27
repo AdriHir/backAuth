@@ -8,7 +8,7 @@ class UserRepository {
 
     public function persist(User $user) {
         $connection = database::connect();
-        $query = $connection->prepare('INSERT INTO user (email,mdp,role) VALUES(:email,:mdp,:role)');
+        $query = $connection->prepare('INSERT INTO user (email,password,role) VALUES(:email,:mdp,:role)');
         $query->bindValue(':email', $user->getEmail());
         $query->bindValue(':mdp', $user->getMdp());
         $query->bindValue(':role', $user->getRole());
@@ -25,7 +25,7 @@ class UserRepository {
             $user = new User();
             $user->setRole($line['role']);
             $user->setEmail($line['email']);
-            $user->setMdp($line['mdp']);
+            $user->setMdp($line['password']);
             $user->setId($line['userId']);
             return $user;
         }

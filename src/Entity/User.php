@@ -18,7 +18,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface{
         private ?string $email = null,
         #[NotBlank()]
         // #[PasswordStrength()] // verifie si le mot de pass est pas pourris
-        private ?string $mdp =null,
+        private ?string $password =null,
         private ?int $id = null
     ) {}
 
@@ -40,14 +40,14 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface{
         return $this;
     }
 
-    #[Ignore] // N'envoie pas le mot de pass en get ! 
+    
     public function getMdp(): ?string {
-        return $this->mdp
+        return $this->password;
         ;
     }
 
-    public function setMdp(?string $mdp): self{
-        $this->mdp = $mdp;
+    public function setMdp(?string $password): self{
+        $this->password = $password;
         return $this;
     }
     public function getRole(): ?string {
@@ -66,6 +66,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface{
         return $this->email;
     }
     public function getPassword(): string|null{
-        return $this->mdp;
+        return $this->password;
     }
 }
