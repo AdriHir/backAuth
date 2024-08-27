@@ -6,6 +6,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 class User implements UserInterface,PasswordAuthenticatedUserInterface{
 
@@ -16,6 +17,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface{
         #[NotBlank()]
         private ?string $email = null,
         #[NotBlank()]
+        // #[PasswordStrength()] // verifie si le mot de pass est pas pourris
         private ?string $mdp =null,
         private ?int $id = null
     ) {}
