@@ -36,7 +36,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/annonce,methods: [GET], roles: PUBLIC_ACCESS } # on dis quela methode get sur cette route est visible par tous le monde
+        - { path: ^/api/annonce, roles: IS_AUTHENTIFICATED_FULLY } #toutes les autres routes sauif le GET sont protegées
+
+
 
 when@test:
     security:
