@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/api')]
 class UserController extends AbstractController {
@@ -14,7 +15,7 @@ class UserController extends AbstractController {
     public function __construct(private UserRepository $repo) {}
 
 
-    #[Route('/register',methods:'POST')]
+    #[Route('/user',methods:'POST')]
 
     public function register(
         #[MapRequestPayload] User $user,
@@ -37,6 +38,13 @@ class UserController extends AbstractController {
 
     }
 
+    #[Route('/user', methods:'GET')]
+     //Annotation permettant de protéger une route. IS_AUTHENTICATED_FULLY indique qu'il faut être connecté, mais peu importe le rôle
+    public function connectedUser() {
+        //le $this->getUser() permet de récupérer le user actuellement connecté (il y aura dedans le résultat de notre findByEmail en l'occurrence)
+        return $this->json($this->getUser());
+    }
+    
     // SAns library JWT 
     // #[Route('/login', methods:'POST')]
     // public function login(
@@ -62,4 +70,3 @@ class UserController extends AbstractController {
 
          
 }
-
